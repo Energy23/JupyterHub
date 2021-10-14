@@ -16,4 +16,5 @@ I've made good expiriences with nginx, see config for example
 **DONE!** 
 ## Visualization
 Here is a scematic overview how this setup works.  
-![](../.img/classroom.jpg | width=80)
+
+<img src="https://github.com/Energy23/JupyterHub/blob/5d1b3e07e1c5565a5c1b9775b820f13c58c05462/.img/classroom.jpg" width="80%">
