@@ -15,5 +15,5 @@ for example: docker run -d -p 9100:8000 --name classroom1 jupyterhub/classroom:0
 I've made good expiriences with nginx, see config for example  
 **DONE!** 
 ## Visualization
-Here is a scematic overview how this setup works.  
-![](../.img/classroom.jpg)
+Here is a scematic overview how this setup works. 
+<img src="classroom.jpg" alt="sceme" width="80%"/> 
