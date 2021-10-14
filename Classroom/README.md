@@ -13,4 +13,7 @@ for example: docker run -d -p 9100:8000 --name classroom1 jupyterhub/classroom:0
 
 **Setup your webserver / reverse-proxy**  
 I've made good expiriences with nginx, see config for example  
-**DONE!**  
+**DONE!** 
+## Visualization
+Here is a scematic overview how this setup works.  
+![](../.img/classroom.jpg)
