@@ -2,6 +2,9 @@ FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 USER root
 
+# Set Git url if not GitHub
+# ENV gitlab_url="https://git.cs.uni-paderborn.de"
+
 RUN apt-get update
 RUN apt-get update --fix-missing
 RUN apt-get -y install python3.6 \
@@ -121,8 +124,6 @@ RUN jupyter serverextension enable --user nbgrader.server_extensions.course_list
 # END NBGrader
 
 USER root
-# Git URL for OAuth
-# ENV gitlab_url="https://git.cs.uni-paderborn.de"
 
 EXPOSE 8000
 RUN mkdir -p /srv/jupyterhub/

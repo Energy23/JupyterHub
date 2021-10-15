@@ -1,0 +1,90 @@
+## Created by andyg
+FROM jupyter/scipy-notebook:latest
+
+LABEL maintainer="DDI UPB Andreas Gödecke <andyg@campus.upb.de>"
+
+USER root
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends nano graphviz ssh vim && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN cd /srv && \
+    mkdir nbgrader && \
+    cd nbgrader && \
+    mkdir exchange && \
+    chmod ugo+rw /srv/nbgrader/exchange
+
+USER $NB_UID
+# Update npm
+RUN npm i -g npm
+# Update conda
+RUN conda update -n base conda
+# Update pip
+RUN pip install --upgrade pip
+#Upgrade Jupyter
+RUN pip install jupyter --upgrade
+RUN pip install notebook --upgrade
+RUN pip install jupyterhub==1.4.2 --upgrade
+# Install Cufflinks
+RUN pip install git+git://github.com/santosjorge/cufflinks.git#egg=cufflinks -U
+
+#RUN conda install conda=4.8.2
+#RUN conda install python=3.6.*
+# Install Python Packages
+RUN conda clean --all -f -y
+# COPY tensorflow-1.14.1-cp36-cp36m-linux_x86_64.whl /opt
+# RUN pip install /opt/tensorflow-1.14.1-cp36-cp36m-linux_x86_64.whl
+# RUN rm /opt/tensorflow-1.14.1-cp36-cp36m-linux_x86_64.whl
+COPY requirements.txt /opt/requirements.txt 
+#RUN pip install -r /opt/requirements.txt
+# Install Python packages for extensions
+RUN pip install \
+    'hide_code' \
+    'nbpresent' \
+    'nbautoeval' \
+    'nbgrader' \
+    'black' \
+    'jupyter-contrib_nbextensions' \
+    'jdc'
+RUN pip install --upgrade nbstripout
+RUN pip install --upgrade jupyterlab-git
+
+USER root
+# Install several extensions
+RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite && \
+    jupyter nbextension enable --sys-prefix --py nbgrader && \
+    jupyter serverextension enable --sys-prefix --py nbgrader
+#RUN jupyter labextension install @jupyterlab/plotly-extension && \
+    #    jupyter labextension install @ryantam626/jupyterlab_code_formatter
+
+RUN jupyter nbextension install --py hide_code
+RUN jupyter nbextension enable execution_dependencies/execution_dependencies 
+RUN jupyter nbextension enable init_cell/main
+RUN jupyter nbextension enable --py hide_code && \
+    jupyter serverextension enable --py hide_code
+#RUN jupyter serverextension enable --py jupyterlab_git
+#RUN jupyter serverextension enable --py jupyterlab_code_formatter
+RUN jupyter nbextension install nbpresent --py --overwrite && \
+    jupyter nbextension enable nbpresent --py && \
+    jupyter serverextension enable nbpresent --py && \
+    jupyter contrib nbextension install --sys-prefix
+
+RUN jupyter labextension update --all
+RUN jupyter lab build
+
+RUN pip install nbgitpuller
+RUN jupyter serverextension enable nbgitpuller --sys-prefix
+
+# Some maintainance
+USER root
+RUN npm cache clean --force
+RUN rm -rf $CONDA_DIR/share/jupyter/lab/staging
+RUN rm -rf /home/$NB_USER/.cache/yarn
+RUN rm -rf /home/$NB_USER/.node-gyp
+RUN fix-permissions $CONDA_DIR
+RUN fix-permissions /home/$NB_USER
+RUN rm -rf /home/$NB_USER/.cache/pip
+RUN chown -R $NBUSER:1000 /home/jovyan/
+USER $NB_UID
+RUN fix-permissions /home/$NB_USER
+USER root

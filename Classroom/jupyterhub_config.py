@@ -2,11 +2,25 @@ import os
 import shutil
 import sys
 
-# Variables for custom setup
+#--------------------------------------------------------------------------------
+# Fill this variables to get things working
+#--------------------------------------------------------------------------------
+# Please select at leat one admin, if using firstuse spawner make sure, that you login 
 admin_users = set({'USER1'})
+
+# Formgrader users are allowed to create, distribute and evaluate nbgrader execises
+grader_users = []
+
+# If you run the classroom in a subdirectory, i.e. https://jupyterserver.com/classroom1
 subdir=''
+
+# Port the docker container is mapped to (in docker run ... -p HOST:CONATINER) HOST is the one you need to use.
+# Use this for reverse-proxying in nginx or other
 local_port='8000'
 
+#--------------------------------------------------------------------------------
+# Other config starts here
+#--------------------------------------------------------------------------------
 def fix_dir(spawner):
     username = spawner.user.name
     path = os.path.join('/home', username)
@@ -42,9 +56,7 @@ else:
     url='--url=http://127.0.0.1:8081/hub/api'
 
 c.JupyterHub.load_groups = {
-    'formgrader': [
-        'USER1'
-    ]
+    'formgrader': grader_users
 }
 
 
