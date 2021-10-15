@@ -11,6 +11,7 @@ It's also possible to run different container with different environments.
 ## Temporary Spawner
 If you just want to present your notebooks or you're on a conference and want to do a workshop, this is the right setup for you.  
 Advantages are, that there is no need for user accounts.  
+In combination with a GIT repository, this config will spawn a notebook server and pull a git repository, so that this setup can be used for different projects.  
 
 **This repo is still under contruction, the config files and how-tos will be added successively.**  
 Feel free to open issues, so that the wiki can be improved.  
