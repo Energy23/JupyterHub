@@ -1,6 +1,6 @@
-# SET CONATINER CONTAINER PORT AND / OR SUBDIR !!
+# SET CONATINER CONTAINER PORT, SSL and SUBDIR(If not used comment out lines 71-97) !!
 # Configuration for running on server root
-# EDIT LINES: 14, 23, 45, 55, 74, 75, 84, 85
+# EDIT LINES: 14, 23, 25, 26, 45, 55, 74, 75, 84, 85
 # 
  map $http_upgrade $connection_upgrade {
          default upgrade;
@@ -20,7 +20,7 @@
 	listen 443;
         client_max_body_size 50M;
  
-        server_name jupyter-ddi.cs.upb.de;
+        server_name SERVERADRESS;
         ssl on;
         ssl_certificate_key /PATH/TO/PRIVATE/FILE.key;
         ssl_certificate /PATH/TO/CERT/FILE.pem;
