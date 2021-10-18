@@ -25,9 +25,22 @@ for example:
 ````bash
 docker run -d -p 9100:8000 --name classroom1 jupyterhub/classroom:0.1  
 ````
+**Note the HOSTPORT for your nginx config**  
+
 ## Setup your webserver / reverse-proxy
-I've made good expiriences with nginx, see config for example  
+I've made good expiriences with nginx, see config for example.  
+Edit the config file depending on your server config:
+* Set you domain
+* Enable ssl
+Copy the config file to your nginx configuratiom path:
+    cp nginx /etc/nginx/sites-available/jupyterhub
+Make config availible:
+    ln -s /etc/nginx/sites-available/jupyterhub /etc/nginx/sites-enabled/jupyterhub
+Reload nginx
+    systemctl reload nginx  
+
 **DONE!** 
+
 ## Visualization
 Here is a scematic overview how this setup works.  
 
