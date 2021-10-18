@@ -8,6 +8,7 @@ You need to install the following packages:
 * Nginx 
 
 ## Build Classroom Docker Image  
+**Before building image, make sure that you've set the right git url in dockerfile, here is a setup for university of paderborn (Line 
 Now we have to build the Docker image for the classroom container:
 ```bash
 docker build -t NAMESPACE/NAME:Version .  
@@ -40,7 +41,10 @@ Reload nginx
     systemctl reload nginx  
 
 **DONE!** 
-
+## Git oAuth
+If you use git for oAuth, here is a guide, how to setup:  
+<https://docs.gitlab.com/ee/integration/oauth_provider.html>
+ 
 ## Visualization
 Here is a scematic overview how this setup works.  
 

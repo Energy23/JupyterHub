@@ -18,6 +18,13 @@ subdir=''
 # Use this for reverse-proxying in nginx or other
 local_port='8000'
 
+# Make sure, that you've set the right git url in dockerfile
+use_oAuth = True # Set to False if not
+oAuth_client_ID = ''
+oAuth_client_secret = ''
+oAuth_callback_url = ''
+ 
+
 #--------------------------------------------------------------------------------
 # Other config starts here
 #--------------------------------------------------------------------------------
@@ -37,9 +44,10 @@ def fix_dir(spawner):
     os.system('jupyter serverextension enable nbgrader.server_extensions.validate_assignment')
 
 #Setup auth
-import firstuseauthenticator
-c.JupyterHub.authenticator_class = 'firstuseauthenticator.FirstUseAuthenticator'
-c.FirstUseAuthenticator.create_users=True
+if not use_oAuth:
+    import firstuseauthenticator
+    c.JupyterHub.authenticator_class = 'firstuseauthenticator.FirstUseAuthenticator'
+    c.FirstUseAuthenticator.create_users=True
 
 c.Authenticator.admin_users = admin_users
 
@@ -59,6 +67,14 @@ c.JupyterHub.load_groups = {
     'formgrader': grader_users
 }
 
+# GitLab OAuth
+if use_oAuth:
+    from oauthenticator.gitlab import GitLabOAuthenticator
+    c.JupyterHub.authenticator_class = 'oauthenticator.gitlab.LocalGitLabOAuthenticator'
+    c.LocalAuthenticator.create_system_users = True
+    c.LocalGitLabOAuthenticator.oauth_callback_url = oAuth_callback_url
+    c.GitLabOAuthenticator.client_id = oAuth_client_ID
+    c.GitLabOAuthenticator.client_secret = oAuth_client_secret
 
 c.JupyterHub.services = [
     {

@@ -3,7 +3,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 USER root
 
 # Set Git url if not GitHub
-# ENV gitlab_url="https://git.cs.uni-paderborn.de"
+ENV gitlab_url="https://git.cs.uni-paderborn.de"
 
 RUN apt-get update
 RUN apt-get update --fix-missing
@@ -25,7 +25,9 @@ RUN npm install -g configurable-http-proxy
 RUN pip3 install jupyterhub
 RUN pip3 install --upgrade notebook
 
- #Upgrade Jupyter
+# Install Git oAuth
+RUN python3 -m pip install oauthenticator
+# Upgrade Jupyter
 RUN pip3 install jupyter --upgrade
 RUN pip3 install notebook --upgrade
 RUN pip3 install jupyterlab --upgrade
