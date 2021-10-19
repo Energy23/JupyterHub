@@ -4,16 +4,28 @@ TEXT
 You need to install the following packages:
 * Python 3.5 or greater
 * NodeJS / npm
-    apt-get install npm nodejs-legacy
+````bash
+apt-get install npm nodejs-legacy
+````
 * Jupyterhub
-    python3 -m pip install jupyterhub
+````bash
+python3 -m pip install jupyterhub
+````
 * Configurable http-proxy
-    npm install -g configurable-http-proxy
+````bash
+npm install -g configurable-http-proxy
+````
 * Docker
 <https://docs.docker.com/engine/install/debian/>
 * Dockerspawner
-    pip3 install dockerspawner
+````bash
+pip3 install dockerspawner
+````
 * TmpAuthenticator
-    pip3 install jupyterhub-tmpauthenticator
+````bash
+pip3 install jupyterhub-tmpauthenticator
+````
 * NBGitPuller
-    pip3 install nbgitpuller
+````bash
+pip3 install nbgitpuller
+````

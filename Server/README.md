@@ -10,17 +10,26 @@ Benefits are:
 You need to install the following packages:
 * Python 3.5 or greater
 * NodeJS / npm
-    apt-get install npm nodejs-legacy 
+````bash
+apt-get install npm nodejs-legacy 
+````
 * Jupyterhub
-    python3 -m pip install jupyterhub
+````bash
+python3 -m pip install jupyterhub
+````
 * Configurable http-proxy
-    npm install -g configurable-http-proxy
+````bash
+npm install -g configurable-http-proxy
+````
 * Docker
 <https://docs.docker.com/engine/install/debian/>
 * Dockerspawner
-    pip3 install dockerspawner
+````bash
+pip3 install dockerspawner
+````
 * Install oAuth
-    python3 -m pip install oauthenticator
-
+````bash
+python3 -m pip install oauthenticator
+````
 ## Run Jupyterhub as a service
 
