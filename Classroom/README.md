@@ -36,17 +36,23 @@ docker run -d -p 9100:8000 --name classroom1 jupyterhub/classroom:0.1
 I've made good expiriences with nginx, see config for example.  
 Edit the config file depending on your server config:
 * Set you domain
-* Enable ssl
+* Enable ssl  
 Copy the config file to your nginx configuratiom path:
-    cp nginx /etc/nginx/sites-available/jupyterhub
+````bash
+cp nginx /etc/nginx/sites-available/jupyterhub
+````
 Make config availible:
-    ln -s /etc/nginx/sites-available/jupyterhub /etc/nginx/sites-enabled/jupyterhub
+````bash
+ln -s /etc/nginx/sites-available/jupyterhub /etc/nginx/sites-enabled/jupyterhub
+````
 Reload nginx
-    systemctl reload nginx  
-
+````bash
+systemctl reload nginx  
+````
 **DONE!** 
+
 ## Git oAuth
-If you use git for oAuth, here is a guide, how to setup:  
+If you use git for oAuth, here is a guide, how to setup you GIT account:  
 <https://docs.gitlab.com/ee/integration/oauth_provider.html>
 
 ## Change classroom configuration

@@ -8,7 +8,7 @@ Benefits are:
 
 ## Prequisites
 You need to install the following packages:
-* Python 3.5 or greater
+* Python 3.6 or greater
 * NodeJS / npm
 ````bash
 apt-get install npm nodejs-legacy 
@@ -21,7 +21,7 @@ python3 -m pip install jupyterhub
 ````bash
 npm install -g configurable-http-proxy
 ````
-* Docker
+* Docker  
 <https://docs.docker.com/engine/install/debian/>
 * Dockerspawner
 ````bash

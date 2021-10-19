@@ -21,13 +21,14 @@ path_key=''
 # Path to store data (has to end with /)
 path_data=''
 
+# Delete container after stop 
+rm_container = True 
 
 #--------------------------------------------------------------------------------
 # Other config starts here
 #--------------------------------------------------------------------------------
-c.Spawner.post_stop_hook = delete_container
 c.DockerSpawner.post_start_cmd= 'cd /home/joyvan/jupyternotebooks && jupyter trust *.ipynb'
-c.Spawner.cpu_limit = 0.1
+c.DockerSpawner.remove = rm_container
 
 ## The ip address for the Hub process to *bind* to.
 #

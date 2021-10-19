@@ -1,7 +1,8 @@
 FROM ubuntu:20.04
+LABEL maintainer="DDI UPB Andreas Gödecke <andyg@campus.upb.de>"
 ARG DEBIAN_FRONTEND=noninteractive
-USER root
 
+USER root
 # Set Git url if not GitHub
 ENV gitlab_url="https://git.cs.uni-paderborn.de"
 

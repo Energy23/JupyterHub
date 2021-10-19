@@ -6,7 +6,7 @@ import sys
 # Fill this variables to get things working
 #--------------------------------------------------------------------------------
 # Please select at leat one admin, if using firstuse spawner make sure, that you login 
-admin_users = set({'USER1'})
+admin_users = set({''})
 
 # Formgrader users are allowed to create, distribute and evaluate nbgrader execises
 grader_users = []
@@ -19,7 +19,7 @@ subdir=''
 local_port='8000'
 
 # Make sure, that you've set the right git url in dockerfile
-use_oAuth = True # Set to False if not
+use_oAuth = False            # Set to True if you want to use oAuth
 oAuth_client_ID = ''
 oAuth_client_secret = ''
 oAuth_callback_url = ''
