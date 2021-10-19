@@ -8,11 +8,11 @@ You need to install the following packages:
 * Nginx 
 
 ## Build Classroom Docker Image  
-**Before building image, make sure that you've set the right git url in dockerfile, here is a setup for university of paderborn (Line 
+**Before building image, make sure that you've set the right git url in dockerfile** 
 Now we have to build the Docker image for the classroom container:
-```bash
+````bash
 docker build -t NAMESPACE/NAME:Version .  
-```
+````
 for example: 
 ````bash
 docker build -t jupyterhub/classroom:0.1 .  
