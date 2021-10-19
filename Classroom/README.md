@@ -47,7 +47,14 @@ Reload nginx
 ## Git oAuth
 If you use git for oAuth, here is a guide, how to setup:  
 <https://docs.gitlab.com/ee/integration/oauth_provider.html>
- 
+
+## Change classroom configuration
+To change your config file, log in into container an edit the config with the ewditor of your choice
+````bash
+docker exec -ti $CONTAINERNAME /bin/bash
+nano jupyterhub_config.py
+```` 
+
 ## Visualization
 Here is a scematic overview how this setup works.  
 
