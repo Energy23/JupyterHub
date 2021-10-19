@@ -7,17 +7,22 @@ ENV gitlab_url="https://git.cs.uni-paderborn.de"
 
 RUN apt-get update
 RUN apt-get update --fix-missing
-RUN apt-get -y install python3.6 \
+RUN apt-get -y install python3.9 \
         npm \
         nodejs \
         vim \
-        nano
- # Update npm and NodeJS
-RUN apt-get install --only-upgrade npm nodejs
+        nano \
+	curl
+# Update npm and NodeJS
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash
+RUN apt-get upgrade -y
+RUN apt-get install --only-upgrade npm
+RUN apt-get -y install --only-upgrade nodejs
 RUN npm cache clean -f
 RUN npm install -g npm@latest
 RUN npm i -g npm
- # Update pip
+
+# Update pip
 RUN apt-get -y install python3-pip
 RUN pip3 install --upgrade pip
 
@@ -27,6 +32,7 @@ RUN pip3 install --upgrade notebook
 
 # Install Git oAuth
 RUN python3 -m pip install oauthenticator
+
 # Upgrade Jupyter
 RUN pip3 install jupyter --upgrade
 RUN pip3 install notebook --upgrade
@@ -70,8 +76,8 @@ RUN pip3 install \
     'matlab_kernel'
 
 # Install Git
-
 RUN apt-get -y install git
+
 # Install Cufflinks
 RUN pip install git+git://github.com/santosjorge/cufflinks.git#egg=cufflinks -U
 
@@ -85,7 +91,7 @@ RUN jupyter nbextension enable execution_dependencies/execution_dependencies
 RUN jupyter nbextension enable init_cell/main
 RUN jupyter contrib nbextension install --sys-prefix
 
-#Cleanup
+# Cleanup
 RUN npm cache clean --force
 RUN rm -rf $CONDA_DIR/share/jupyter/lab/staging
 RUN rm -rf /home/$NB_USER/.cache/yarn
@@ -102,7 +108,8 @@ RUN chmod -R 0700 /home/grader
 
 USER root
 COPY nbgrader_config.py /usr/etc/jupyter/
-#Install nbgrader and enable
+
+# Install nbgrader and enable
 RUN jupyter nbextension install --sys-prefix --py nbgrader --overwrite
 RUN jupyter nbextension enable --sys-prefix --py nbgrader
 RUN jupyter serverextension enable --sys-prefix --py nbgrader
@@ -114,7 +121,8 @@ RUN jupyter serverextension disable --sys-prefix nbgrader.server_extensions.form
 
 RUN jupyter nbextension disable --sys-prefix course_list/main --section=tree
 RUN jupyter serverextension disable --sys-prefix nbgrader.server_extensions.course_list
-#Enable Extensions for grader
+
+# Enable Extensions for grader
 USER grader
 RUN jupyter nbextension enable --user create_assignment/main
 
@@ -126,6 +134,10 @@ RUN jupyter serverextension enable --user nbgrader.server_extensions.course_list
 # END NBGrader
 
 USER root
+
+# Enable nbgitpuller
+RUN pip3 install nbgitpuller
+RUN jupyter serverextension enable nbgitpuller --sys-prefix
 
 EXPOSE 8000
 RUN mkdir -p /srv/jupyterhub/

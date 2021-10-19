@@ -9,6 +9,9 @@ You need to install the following packages:
 
 ## Build Classroom Docker Image  
 **Before building image, make sure that you've set the right git url in dockerfile** 
+There a two dockerfiles for classrooms. They are quite similar, despite that the nbgrader runs on Python 3.6 and the other one is on Python 3.9.  
+This is because the Nbgitpuller needs Python 3.7 or higher, and nbgrader still has problems with Python versions above 3.6.  
+So rename the file you want to 'dockerfile'.  
 Now we have to build the Docker image for the classroom container:
 ````bash
 docker build -t NAMESPACE/NAME:Version .  
@@ -26,7 +29,7 @@ for example:
 ````bash
 docker run -d -p 9100:8000 --name classroom1 jupyterhub/classroom:0.1  
 ````
-**Note the HOSTPORT for your nginx config**  
+**Note the HOSTPORT for your webserver config**  
 
 ## Setup your webserver / reverse-proxy
 I've made good expiriences with nginx, see config for example.  
