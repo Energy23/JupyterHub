@@ -11,6 +11,7 @@ You need to install the following packages:
 **Before building image, make sure that you've set the right git url in dockerfile** 
 There a two dockerfiles for classrooms. They are quite similar, despite that the nbgrader runs on Python 3.6 and the other one is on Python 3.9.  
 This is because the Nbgitpuller needs Python 3.7 or higher, and nbgrader still has problems with Python versions above 3.6.  
+You can use the nbgrader Service to distribute, but functions like autograde and verification won't work.  
 So rename the file you want to 'dockerfile'.  
 Now we have to build the Docker image for the classroom container:
 ````bash
@@ -53,8 +54,30 @@ To change your config file, log in into container an edit the config with the ew
 ````bash
 docker exec -ti $CONTAINERNAME /bin/bash
 nano jupyterhub_config.py
+# Strg + O to save and Strg+X to exit
+exit
 ```` 
 
+## Setup NBGrader
+For using nbgrader you have to create a course and then set the nbgrader config to your course directory.  
+````bash
+docker exec -ti -u grader $CONTAINERNAME /bin/bash
+nbgrader quickstart course_id
+````
+All necesssary files and two example notebooks will be created.  
+After that you have to adjust the course directory:  
+````bash
+docker exec -ti $CONTAINERNAME /bin/bash
+nano /usr/etc/jupyter/nbgrader_config.py
+#edit the following line
+c.CourseDirectory.root = '/home/grader/course_id'
+# Strg + O to save and Strg+X to exit
+exit
+````
+Restart the container with:
+````bash
+docker restart $CONTAINERNAME
+```` 
 ## Visualization
 Here is a scematic overview how this setup works.  
 
