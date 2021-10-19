@@ -1,0 +1,78 @@
+## Created by andyg
+FROM jupyter/scipy-notebook:latest
+
+LABEL maintainer="Andreas Gödecke <andyg@campus.upb.de>"
+
+USER root
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends nano && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+USER $NB_UID
+# Update npm
+RUN npm i -g npm
+# Update conda
+RUN conda update -n base conda
+# Update pip
+RUN pip install --upgrade pip
+
+#Upgrade Jupyter
+RUN pip install jupyter --upgrade
+RUN pip install notebook --upgrade
+RUN pip install jupyterlab --upgrade
+RUN pip install jupyterhub --upgrade
+
+# Install packages
+RUN pip install \
+    'numpy' \
+    'ipyleaflet' \
+    'folium' \
+    'plotly' \
+    'seaborn' \
+    'graphviz' \
+    'matplotlib' \
+    'scipy==1.4.1' \
+    'tensorflow' \
+    'keras' \
+    'cufflinks' \
+    'chart-studio' \
+    'wget' \
+    'opencv-python' \
+    'ipycanvas'
+
+# Install Extensions
+RUN pip install \
+    'jupyter_contrib_nbextensions' \
+    'hide_code' \
+    'nbgitpuller'
+RUN jupyter contrib nbextension install --sys-prefix
+USER root
+RUN jupyter nbextension install --py hide_code
+
+# Fix Graphviz issues
+RUN conda install -y python-graphviz
+# Clean dependencies
+RUN conda clean -a -f
+RUN npm cache clean --force && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /home/$NB_USER/.node-gyp && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
+# Enable Serverextensions
+RUN jupyter serverextension enable --py 'hide_code' && \
+    jupyter serverextension enable nbgitpuller --sys-prefix
+# Enable NBExtensions
+RUN jupyter nbextension enable hide_input/main && \
+    jupyter nbextension enable hide_input_all/main && \
+    jupyter nbextension enable --py hide_code
+# Own Folders and trust Notebooks
+RUN jupyter nbextension enable --sys-prefix toc2/main
+RUN chown -R jovyan:users /home/jovyan/
+
+RUN cd /usr/local/share/jupyter/nbextensions/markup && jupyter contrib nbextensions install
+USER $NB_UID
+RUN jupyter nbextension enable markup/main
+RUN rm -rf /home/jovyan/work
