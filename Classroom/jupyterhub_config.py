@@ -12,11 +12,11 @@ admin_users = set({''})
 grader_users = []
 
 # If you run the classroom in a subdirectory, i.e. https://jupyterserver.com/classroom1
-subdir=''
+subdir = ''
 
 # Port the docker container is mapped to (in docker run ... -p HOST:CONATINER) HOST is the one you need to use.
 # Use this for reverse-proxying in nginx or other
-local_port='8000'
+local_port = '8000'
 
 # Make sure, that you've set the right git url in dockerfile
 use_oAuth = False            # Set to True if you want to use oAuth
@@ -24,6 +24,10 @@ oAuth_client_ID = ''
 oAuth_client_secret = ''
 oAuth_callback_url = ''
  
+# If using SSL (recommended)
+use_SSL = False
+path_key = ''       # Path to keyfile ending with .key 
+path_pem = ''       # Path to public cert ending with .pem
 
 #--------------------------------------------------------------------------------
 # Other config starts here
@@ -50,6 +54,10 @@ if not use_oAuth:
     c.FirstUseAuthenticator.create_users=True
 
 c.Authenticator.admin_users = admin_users
+
+if use_SSL:
+    c.JupyterHub.ssl_key = path_key
+    c.JupyterHub.ssl_cert = path_pem
 
 c.JupyterHub.cookie_secret_file = '/root/jupyterhub_cookie_secret'
 c.JupyterHub.db_url = '/root/jupyterhub.sqlite'
