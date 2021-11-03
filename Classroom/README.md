@@ -53,7 +53,12 @@ systemctl reload nginx
 
 ## Git oAuth
 If you use git for oAuth, here is a guide, how to setup you GIT account:  
-<https://docs.gitlab.com/ee/integration/oauth_provider.html>
+<https://docs.gitlab.com/ee/integration/oauth_provider.html>  
+The urls in Callback URL in Gitlab are:  
+http(s)://URL/users/auth/github/callback  
+http(s)://URL/hub/oauth_callback 
+The url in jupyterhub_config.py is:  
+http(s)://URL/hub/oauth_callback
 
 ## Change classroom configuration
 To change your config file, log in into container an edit the config with the ewditor of your choice
